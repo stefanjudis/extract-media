@@ -2,7 +2,7 @@ const test = require('ava');
 const { tmpdir } = require('os');
 const { join } = require('path');
 const { spawn } = require('child_process');
-const { access } = require('fs/promises');
+const { access } = require('fs').promises;
 const { constants: FS_CONSTANTS } = require('fs');
 
 const command = join(__dirname, '..', 'extract-media');

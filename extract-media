@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-set -euo pipefail
+set -eu
 
 _extract() {
   TMP_DIR="$(mktemp -d)"
@@ -20,7 +20,7 @@ if [ $# -eq 0 ]; then
   exit
 fi
 
-if [[ $1 == *".key"* ]] || [[ $1 == *".docx"* ]]; then
+if [[ $1 == *".key" ]] || [[ $1 == *".docx" ]]; then
   FILE_PATH="$1"
   DESTINATION=${2:-$PWD/}
 
