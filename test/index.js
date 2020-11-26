@@ -5,7 +5,6 @@ const { spawn } = require('child_process');
 const { access } = require('fs').promises;
 const { readFileSync } = require('fs');
 const { constants: FS_CONSTANTS } = require('fs');
-const { stderr } = require('process');
 
 const command = join(__dirname, '..', 'extract-media');
 const helpText = readFileSync(join(__dirname, '..', 'help.txt'), 'utf8');
