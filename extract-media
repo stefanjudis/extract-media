@@ -2,6 +2,10 @@
 
 set -eu
 
+_help() {
+  cat ./help.txt
+}
+
 _extract() {
   TMP_DIR="$(mktemp -d)"
   cp "$1" "$TMP_DIR/EXTRACT_MEDIA_TMP.zip"
@@ -16,8 +20,13 @@ _extract() {
 
 if [ $# -eq 0 ]; then
   echo "Please define the file you want to extract media from."
-  echo "$ extract-media you-file.key"
+  _help
   exit
+fi
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  _help
+  exit 1
 fi
 
 if [[ $1 == *".key" ]] || [[ $1 == *".docx" ]]; then

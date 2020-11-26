@@ -1,0 +1,10 @@
+Usage: extract-media file.key [destination]
+
+Supported file formats:
+  - .docx
+  - .key
+
+Examples:
+  - extract-media file.key
+  - extract-media file.key .
+  - extract-media file.key /some-where-absolute/
