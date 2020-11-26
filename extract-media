@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -euo pipefail
+
+_extract() {
+  TMP_DIR="$(mktemp -d)"
+  cp "$1" "$TMP_DIR/EXTRACT_MEDIA_TMP.zip"
+  unzip "$TMP_DIR/EXTRACT_MEDIA_TMP.zip" -d "$TMP_DIR/out" > /dev/null
+
+  MEDIA_FILES="$(find "$TMP_DIR/out" \( -name "*.png" -o -name "*.jpg" -o -name "*.mp4" -o -name "*.gif" \))"
+
+  echo "$MEDIA_FILES" | while read -r line; do
+    cp "$line" "$2/"
+  done
+}
+
+if [ $# -eq 0 ]; then
+  echo "Please define the file you want to extract media from."
+  echo "$ extract-media you-file.key"
+  exit
+fi
+
+if [[ $1 == *".key"* ]] || [[ $1 == *".docx"* ]]; then
+  FILE_PATH="$1"
+  DESTINATION=${2:-$PWD/}
+
+  # support relative and absolute file paths
+  if [[ "$FILE_PATH" != /* ]]; then
+    FILE_PATH="$PWD/$FILE_PATH"
+  fi
+
+  # make sure the destination path ends with a "/""
+  [[ "${DESTINATION}" != */ ]] && DESTINATION="${DESTINATION}/"
+
+  _extract "$FILE_PATH" "$DESTINATION"
+else
+  echo "Extract media only supports .key and .docx file formats."
+  exit 1
+fi
