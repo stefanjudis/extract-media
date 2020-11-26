@@ -41,14 +41,14 @@ function testMediaExtraction(t, { testFileName, expectedMediaFileName }) {
   });
 }
 
-test('extract media from .key file', (t) => {
+test('extract media from .key file with absolute paths', (t) => {
   return testMediaExtraction(t, {
     testFileName: 'test.key',
     expectedMediaFileName: 'pasted-image-8948.png',
   });
 });
 
-test('extract media from .docx file', (t) => {
+test('extract media from .docx file with absolute paths', (t) => {
   return testMediaExtraction(t, {
     testFileName: 'test.docx',
     expectedMediaFileName: 'image1.png',
