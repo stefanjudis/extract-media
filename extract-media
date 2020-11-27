@@ -14,8 +14,8 @@ _extract() {
   MEDIA_FILES="$(find "$TMP_DIR/out" \( -name "*.png" -o -name "*.jpg" -o -name "*.mp4" -o -name "*.gif" \))"
 
   if [ "$MEDIA_FILES" == "" ]; then
-    echo "No media found"
-  else 
+    echo "No media found."
+  else
     echo "$MEDIA_FILES" | while read -r line; do
       cp "$line" "$2/"
     done
@@ -35,7 +35,7 @@ fi
 
 # Check the availability of unzip
 if ! command -v unzip &> /dev/null; then
-  echo "Please install the unzip binary"
+  echo "Please install the unzip binary."
   exit 1
 fi
 

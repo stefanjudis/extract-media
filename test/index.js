@@ -41,6 +41,24 @@ function testMediaExtraction(t, { testFileName, expectedMediaFileName }) {
   });
 }
 
+function testOutput(t, { commandArguments, expectedOutput, exitCode }) {
+  return new Promise((resolve) => {
+    const extractMedia = spawn(command, commandArguments);
+    const stdoutMsgs = [];
+    const stderrMsgs = [];
+
+    extractMedia.stdout.on('data', (data) => stdoutMsgs.push(`${data}`));
+    extractMedia.stderr.on('data', (data) => stderrMsgs.push(`${data}`));
+    extractMedia.on('close', (code) => {
+      t.is(stdoutMsgs.join(''), expectedOutput);
+      t.is(stderrMsgs.length, 0);
+      t.is(code, exitCode);
+      t.pass();
+      resolve();
+    });
+  });
+}
+
 test('extract media from .key file with absolute paths', (t) => {
   return testMediaExtraction(t, {
     testFileName: 'test.key',
@@ -55,20 +73,18 @@ test('extract media from .docx file with absolute paths', (t) => {
   });
 });
 
-test('show help text', (t) => {
-  return new Promise((resolve, reject) => {
-    const extractMedia = spawn(command, ['-h']);
-    const stdoutMsgs = [];
-    const stderrMsgs = [];
+test('show log message if file does not include media', (t) => {
+  return testOutput(t, {
+    commandArguments: [join(__dirname, 'files', 'test-empty.docx')],
+    expectedOutput: 'No media found.\n',
+    exitCode: 0,
+  });
+});
 
-    extractMedia.stdout.on('data', (data) => stdoutMsgs.push(`${data}`));
-    extractMedia.stderr.on('data', (data) => stderrMsgs.push(`${data}`));
-    extractMedia.on('close', (code) => {
-      t.is(stdoutMsgs.join(''), helpText);
-      t.is(stderrMsgs.length, 0);
-      t.is(code, 1);
-      t.pass();
-      resolve();
-    });
+test('show help text', (t) => {
+  return testOutput(t, {
+    commandArguments: ['-h'],
+    expectedOutput: helpText,
+    exitCode: 1,
   });
 });
