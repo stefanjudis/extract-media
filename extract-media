@@ -12,10 +12,14 @@ _extract() {
   unzip "$TMP_DIR/EXTRACT_MEDIA_TMP.zip" -d "$TMP_DIR/out" > /dev/null
 
   MEDIA_FILES="$(find "$TMP_DIR/out" \( -name "*.png" -o -name "*.jpg" -o -name "*.mp4" -o -name "*.gif" \))"
-
-  echo "$MEDIA_FILES" | while read -r line; do
+  MEDIA_NB=0
+  
+  # echo "$" |
+  while read -r line; do
+    MEDIA_NB=$((MEDIA_NB+1))
     cp "$line" "$2/"
-  done
+  done <<< "$MEDIA_FILES"
+  echo "$MEDIA_NB media succesfully extracted"
 }
 
 if [ $# -eq 0 ]; then
