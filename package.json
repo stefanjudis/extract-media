@@ -1,6 +1,6 @@
 {
   "name": "extract-media",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A command line utility to extract media from .key and .docx files",
   "bin": {
     "extract-media": "./extract-media"

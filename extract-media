@@ -12,14 +12,17 @@ _extract() {
   unzip "$TMP_DIR/EXTRACT_MEDIA_TMP.zip" -d "$TMP_DIR/out" > /dev/null
 
   MEDIA_FILES="$(find "$TMP_DIR/out" \( -name "*.png" -o -name "*.jpg" -o -name "*.mp4" -o -name "*.gif" \))"
-  MEDIA_NB=0
-  
-  # echo "$" |
-  while read -r line; do
-    MEDIA_NB=$((MEDIA_NB+1))
-    cp "$line" "$2/"
-  done <<< "$MEDIA_FILES"
-  echo "$MEDIA_NB media succesfully extracted"
+
+  if [ "$MEDIA_FILES" == "" ]; then
+    echo "No media found."
+  else
+    MEDIA_NB=0
+    while read -r line; do
+      MEDIA_NB=$((MEDIA_NB+1))
+      cp "$line" "$2/"
+    done <<< "$MEDIA_FILES"
+    echo "$MEDIA_NB media succesfully extracted to $2"
+  fi
 }
 
 if [ $# -eq 0 ]; then
@@ -30,6 +33,12 @@ fi
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   _help
+  exit 1
+fi
+
+# Check the availability of unzip
+if ! command -v unzip &> /dev/null; then
+  echo "Please install the unzip binary."
   exit 1
 fi
 
