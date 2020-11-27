@@ -29,9 +29,9 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   exit 1
 fi
 
-# Check the availability of unzip 
-if [ ! -x "unzip" ] ; then
-  echo "Please install unzip first" 
+# Check the availability of unzip
+if ! command -v unzip &> /dev/null; then
+  echo "Please install the unzip binary"
   exit 1
 fi
 
