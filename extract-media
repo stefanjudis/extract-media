@@ -13,9 +13,13 @@ _extract() {
 
   MEDIA_FILES="$(find "$TMP_DIR/out" \( -name "*.png" -o -name "*.jpg" -o -name "*.mp4" -o -name "*.gif" \))"
 
-  echo "$MEDIA_FILES" | while read -r line; do
-    cp "$line" "$2/"
-  done
+  if [ "$MEDIA_FILES" == "" ]; then
+    echo "No media found"
+  else 
+    echo "$MEDIA_FILES" | while read -r line; do
+      cp "$line" "$2/"
+    done
+  fi
 }
 
 if [ $# -eq 0 ]; then
